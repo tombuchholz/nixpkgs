@@ -52,7 +52,8 @@ let
     Cocoa
     CoreFoundation
     CoreText
-    IOKit;
+    IOKit
+    OpenAL;
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "aegisub";
@@ -99,7 +100,8 @@ stdenv.mkDerivation (finalAttrs: {
     zlib
   ]
   ++ lib.optionals alsaSupport [ alsa-lib ]
-  ++ lib.optionals openalSupport [ openal ]
+  ++ lib.optionals (openalSupport && !stdenv.isDarwin) [ openal ]
+  ++ lib.optionals (openalSupport && stdenv.isDarwin) [ OpenAL ]
   ++ lib.optionals portaudioSupport [ portaudio ]
   ++ lib.optionals pulseaudioSupport [ libpulseaudio ]
   ++ lib.optionals spellcheckSupport [ hunspell ]
